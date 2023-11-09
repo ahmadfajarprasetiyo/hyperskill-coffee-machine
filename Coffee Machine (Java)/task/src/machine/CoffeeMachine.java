@@ -4,52 +4,68 @@ import java.util.Scanner;
 
 public class CoffeeMachine {
     public static void main(String[] args) {
-
+        final String BUY_ACTION = "buy";
+        final String FILL_ACTION = "fill";
+        final String TAKE_ACTION = "take";
 
         Scanner scanner = new Scanner(System.in);
+        CoffeeMachineInventory coffeeMachineInventory = new CoffeeMachineInventory();
 
-        int waterStock = askWaterStock(scanner);
-        int milkStock = askMilkStock(scanner);
-        int coffeeBeansStock = askCoffeeBeansStock(scanner);
-        int numberCups = askCoffeeNeededInCup(scanner);
+        coffeeMachineInventory.printInventory();
+        System.out.println();
 
-        int coffeeCanMake = coffeeInCupCanMake(waterStock, milkStock, coffeeBeansStock);
-
-        if (numberCups == coffeeCanMake) {
-            System.out.println("Yes, I can make that amount of coffee");
-        } else if (numberCups > coffeeCanMake) {
-            System.out.printf("No, I can make only %d cup(s) of coffee\n", coffeeCanMake);
-        } else {
-            System.out.printf("Yes, I can make that amount of coffee (and even %d more than that)\n", coffeeCanMake - numberCups);
+        String action = askAction(scanner);
+        switch (action){
+            case BUY_ACTION -> actionBuy(scanner, coffeeMachineInventory);
+            case FILL_ACTION -> actionFill(scanner, coffeeMachineInventory);
+            case TAKE_ACTION -> actionTake(coffeeMachineInventory);
         }
+        System.out.println();
+
+        coffeeMachineInventory.printInventory();
 
     }
 
-    private static int askWaterStock(Scanner scanner) {
-        System.out.println("Write how many ml of water the coffee machine has:");
-        return scanner.nextInt();
+    private static String askAction(Scanner scanner) {
+        System.out.println("Write action (buy, fill, take):");
+        return scanner.nextLine();
     }
 
-    private static int askMilkStock(Scanner scanner) {
-        System.out.println("Write how many ml of milk the coffee machine has:");
-        return scanner.nextInt();
+    private static void actionBuy(Scanner scanner, CoffeeMachineInventory coffeeMachineInventory) {
+        final int BUY_ESPRESSO = 1;
+        final int BUY_LATTE = 2;
+        final int BUY_CAPPUCCINO = 3;
+
+        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ");
+        int buyingItem = scanner.nextInt();
+
+        switch (buyingItem) {
+            case BUY_ESPRESSO -> coffeeMachineInventory.makeEspresso();
+            case BUY_LATTE -> coffeeMachineInventory.makeLatte();
+            case BUY_CAPPUCCINO -> coffeeMachineInventory.makeCappuccino();
+        }
     }
 
-    private static int askCoffeeBeansStock(Scanner scanner) {
-        System.out.println("Write how many grams of coffee beans the coffee machine has:");
-        return scanner.nextInt();
+    private static void actionFill(Scanner scanner, CoffeeMachineInventory coffeeMachineInventory) {
+        System.out.println("Write how many ml of water you want to add:");
+        int water = scanner.nextInt();
+
+        System.out.println("Write how many ml of milk you want to add:");
+        int milk = scanner.nextInt();
+
+        System.out.println("Write how many grams of coffee beans you want to add:");
+        int beans = scanner.nextInt();
+
+        System.out.println("Write how many disposable cups you want to add:");
+        int cups = scanner.nextInt();
+
+        coffeeMachineInventory.fillStock(water, milk, beans, cups);
+
     }
 
-    private static int askCoffeeNeededInCup(Scanner scanner) {
-        System.out.println("Write how many cups of coffee you will need:");
-        return scanner.nextInt();
+    private static void actionTake(CoffeeMachineInventory coffeeMachineInventory) {
+        System.out.printf("I gave you $%d", coffeeMachineInventory.takeMoney());
     }
 
-    private static int coffeeInCupCanMake(int waterStock,int milkStock,int coffeeBeansStock) {
-        final int waterNeed = 200;
-        final int milkNeed = 50;
-        final int coffeeBeansNeed = 15;
 
-        return Math.min(Math.min(waterStock/waterNeed, milkStock/milkNeed),coffeeBeansStock/coffeeBeansNeed);
-    }
 }

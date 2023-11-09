@@ -360,6 +360,12 @@ files:
           }
       }
     learner_created: false
+  - name: src/machine/CoffeeMachineInventory.java
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/33/stages/178/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Thu, 09 Nov 2023 01:12:08 UTC"
 record: -1
