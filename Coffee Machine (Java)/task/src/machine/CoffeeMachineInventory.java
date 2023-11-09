@@ -52,11 +52,33 @@ class CoffeeMachineInventory {
     }
 
     private void makeCoffee(int waterNeeded, int milkNeeded, int beansNeeded, int price) {
+        if (waterNeeded > this.water) {
+            System.out.println("Sorry, not enough water!");
+            return;
+        }
+
+        if (milkNeeded > this.milk) {
+            System.out.println("Sorry, not enough milk!");
+            return;
+        }
+
+        if (beansNeeded > this.beans) {
+            System.out.println("Sorry, not enough coffee beans!");
+            return;
+        }
+
+        if (this.cups < 1) {
+            System.out.println("Sorry, not enough disposable cups!");
+            return;
+        }
+
         this.water = this.water - waterNeeded;
         this.milk = this.milk - milkNeeded;
         this.beans = this.beans - beansNeeded;
         this.cups--;
         this.money = this.money + price;
+
+        System.out.println("I have enough resources, making you a coffee!");
 
     }
 
